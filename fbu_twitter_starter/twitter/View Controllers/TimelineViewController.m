@@ -10,26 +10,39 @@
 #import "APIManager.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "Tweet.h"
+#import "TweetCell.h"
 
-@interface TimelineViewController ()
+@interface TimelineViewController () <UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logOut;
 - (IBAction)didTapLogout:(id)sender;
+@property (nonatomic, strong) NSMutableArray *arrayOfTweets;
+@property (weak, nonatomic) IBOutlet UITableView *timelineTableView;
 
 @end
-
 @implementation TimelineViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+        
+        self.timelineTableView.dataSource = self;
+        
+//        NSMutableArray *tweetsCast = [[NSMutableArray alloc]init];
+//        tweetsCast = [NSMutableArray arrayWithArray:tweets];
+        
+        self.arrayOfTweets = (NSMutableArray *)tweets;
+        
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
-            for (NSDictionary *dictionary in tweets) {
-                NSString *text = dictionary[@"text"];
+            for (Tweet *tweet in tweets) {
+                NSString *text = tweet.text;
                 NSLog(@"%@", text);
             }
+            [self.timelineTableView reloadData];
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
@@ -51,7 +64,6 @@
 }
 */
 
-
 - (IBAction)didTapLogout:(id)sender {
     
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -61,4 +73,24 @@
     appDelegate.window.rootViewController = loginViewController;
     [[APIManager shared] logout];
 }
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetID" forIndexPath:indexPath];
+    
+    //cell.username.text = self.arrayOfTweets[indexPath.row][@""];
+
+    // Get the tweet at the specified index in the tweet array
+    NSDictionary *tweetsDict = self.arrayOfTweets[indexPath.row];
+    
+    //NSString *URLString = tweetsDict.user.profilePicture;
+    //NSURL *url = [NSURL URLWithString:URLString];
+    //NSData *urlData = [NSData dataWithContentsOfURL:url];
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.arrayOfTweets.count;
+}
+
 @end
