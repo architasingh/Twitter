@@ -76,7 +76,23 @@
                         <viewLayoutGuide key="safeArea" id="ugE-Ul-H9I"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home Timeline" id="MOc-fV-EZE"/>
+                    <navigationItem key="navigationItem" title="Home Timeline" id="MOc-fV-EZE">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="zho-eB-AIL" userLabel="Bar">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="TTE-mz-9RP" userLabel="Button">
+                                <rect key="frame" x="16" y="11" width="83" height="34.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Log Out"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Log Out"/>
+                                <connections>
+                                    <action selector="didTapLogout:" destination="Lbl-k5-U4i" eventType="touchUpInside" id="dcZ-is-lTu"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="logOut" destination="zho-eB-AIL" id="mv3-8J-aGe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQh-hN-GQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -97,6 +113,12 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JHS-35-jFs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Vil-Wq-yXb">
+                    <rect key="frame" x="0.0" y="0.0" width="67" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                </button>
             </objects>
             <point key="canvasLocation" x="860" y="36.431784107946029"/>
         </scene>
