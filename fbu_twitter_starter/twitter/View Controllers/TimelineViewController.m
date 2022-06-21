@@ -92,6 +92,7 @@
     cell.username.text = tweets.user.name;
     cell.actualUsername.text = [@"@" stringByAppendingString: tweets.user.screenName];
     cell.actualTweet.text = tweets.text;
+    
     cell.date.text = tweets.createdAtString;
     cell.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.retweetCount];
     cell.like.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.favoriteCount];
