@@ -125,8 +125,12 @@
     cell.actualTweet.text = tweets.text;
     
     cell.date.text = tweets.createdAtString;
+    
     cell.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.retweetCount];
     cell.like.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.favoriteCount];
+    
+    cell.retweet.titleLabel.adjustsFontForContentSizeCategory = true;
+    cell.like.titleLabel.adjustsFontForContentSizeCategory = true;
     
     return cell;
 }
