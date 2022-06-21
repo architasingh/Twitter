@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "Tweet.h"
 #import "TweetCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface TimelineViewController () <UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logOut;
@@ -25,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.timelineTableView.estimatedRowHeight = UITableViewAutomaticDimension;
     
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
@@ -75,16 +77,24 @@
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetID" forIndexPath:indexPath];
     
-    //cell.username.text = self.arrayOfTweets[indexPath.row][@""];
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetID" forIndexPath:indexPath];
 
     // Get the tweet at the specified index in the tweet array
-    NSDictionary *tweetsDict = self.arrayOfTweets[indexPath.row];
+    Tweet *tweets = self.arrayOfTweets[indexPath.row];
     
-    //NSString *URLString = tweetsDict.user.profilePicture;
-    //NSURL *url = [NSURL URLWithString:URLString];
-    //NSData *urlData = [NSData dataWithContentsOfURL:url];
+    NSString *URLString = tweets.user.profilePicture;
+    NSURL *url = [NSURL URLWithString:URLString];
+    NSData *urlData = [NSData dataWithContentsOfURL:url];
+
+    cell.profilePic.image = [UIImage imageWithData: urlData];
+    
+    cell.username.text = tweets.user.name;
+    cell.actualUsername.text = [@"@" stringByAppendingString: tweets.user.screenName];
+    cell.actualTweet.text = tweets.text;
+    cell.date.text = tweets.createdAtString;
+    cell.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.retweetCount];
+    cell.like.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.favoriteCount];
     
     return cell;
 }
