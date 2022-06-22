@@ -10,6 +10,7 @@
 #import "APIManager.h"
 
 @implementation TweetCell
+
 - (IBAction)didTapFavorite:(id)sender {
     if ((self.tweet.favorited == YES)) {
         
@@ -104,6 +105,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
