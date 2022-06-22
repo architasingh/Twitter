@@ -22,6 +22,7 @@
 		AD5C4E6428611FBC00243F35 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5C4E6328611FBC00243F35 /* TweetCell.m */; };
 		AD5C4E66286224C600243F35 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD5C4E65286224C600243F35 /* Keys.plist */; };
 		AD5C4E6928626FAB00243F35 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5C4E6828626FAB00243F35 /* ComposeViewController.m */; };
+		AD5C4E6C2863B87500243F35 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5C4E6B2863B87500243F35 /* DetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,8 @@
 		AD5C4E65286224C600243F35 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		AD5C4E6728626FAB00243F35 /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
 		AD5C4E6828626FAB00243F35 /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
+		AD5C4E6A2863B87500243F35 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		AD5C4E6B2863B87500243F35 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +155,8 @@
 				6AD2790520BCC0380085BC29 /* LoginViewController.m */,
 				6AD2790720BCC04D0085BC29 /* TimelineViewController.h */,
 				6AD2790820BCC04D0085BC29 /* TimelineViewController.m */,
+				AD5C4E6A2863B87500243F35 /* DetailsViewController.h */,
+				AD5C4E6B2863B87500243F35 /* DetailsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 			files = (
 				AD5C4E6428611FBC00243F35 /* TweetCell.m in Sources */,
 				6AD278F320BCA6020085BC29 /* BDBOAuth1SessionManager+SFAuthenticationSession.m in Sources */,
+				AD5C4E6C2863B87500243F35 /* DetailsViewController.m in Sources */,
 				AD5C4E5E286119EF00243F35 /* User.m in Sources */,
 				AD5C4E6928626FAB00243F35 /* ComposeViewController.m in Sources */,
 				6AD278E820BC4B970085BC29 /* main.m in Sources */,
