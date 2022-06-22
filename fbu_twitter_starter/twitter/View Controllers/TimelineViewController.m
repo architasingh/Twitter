@@ -14,6 +14,7 @@
 #import "TweetCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "ComposeViewController.h"
+#import "DetailsViewController.h"
 #import "DateTools.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
@@ -89,9 +90,18 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-   UINavigationController *navigationController = [segue destinationViewController];
-   ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-   composeController.delegate = self;
+    if ([[segue identifier] isEqualToString:@"ComposeViewSegue"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+    }
+    if ([[segue identifier] isEqualToString:@"DetailViewSegue"]) {
+        DetailsViewController *dvc = [segue destinationViewController];
+        
+        NSIndexPath *indexPath = [self.timelineTableView indexPathForCell:(UITableViewCell *)sender];
+        Tweet *tweet = self.arrayOfTweets[indexPath.row];
+        dvc.tweet = tweet;
+    }
 }
 
 - (IBAction)didTapLogout:(id)sender {
@@ -138,5 +148,10 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.arrayOfTweets.count;
 }
+
+- (void)didTweet:(nonnull Tweet *)tweet {
+}
+
+
 
 @end
