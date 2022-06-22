@@ -14,6 +14,7 @@
 #import "TweetCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "ComposeViewController.h"
+#import "DateTools.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logOut;
@@ -123,7 +124,7 @@
     cell.actualUsername.text = [@"@" stringByAppendingString: tweet.user.screenName];
     cell.actualTweet.text = tweet.text;
     
-    cell.date.text = tweet.createdAtString;
+    cell.date.text = tweet.date.shortTimeAgoSinceNow;
     
     cell.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", tweet.retweetCount];
     cell.like.titleLabel.text = [NSString stringWithFormat: @"%d", tweet.favoriteCount];
