@@ -106,6 +106,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="retweet-icon" title="Retweet"/>
+                                                    <connections>
+                                                        <action selector="didTapRetweet:" destination="O3k-Ie-ySv" eventType="touchUpInside" id="o31-c2-LA5"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XPt-CY-xt7">
                                                     <rect key="frame" x="174" y="158" width="116" height="44"/>
@@ -115,6 +118,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="favor-icon" title="Likes"/>
+                                                    <connections>
+                                                        <action selector="didTapFavorite:" destination="O3k-Ie-ySv" eventType="touchUpInside" id="IKq-1h-YXK"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NvZ-70-AL1">
                                                     <rect key="frame" x="325" y="158" width="40" height="44"/>

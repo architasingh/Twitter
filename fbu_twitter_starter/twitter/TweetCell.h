@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *actualUsername;
 @property (weak, nonatomic) IBOutlet UILabel *date;
 
+@property (nonatomic, strong) Tweet *tweet;
+
 @end
 
 NS_ASSUME_NONNULL_END
