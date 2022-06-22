@@ -38,9 +38,6 @@
         
         self.timelineTableView.dataSource = self;
         
-//        NSMutableArray *tweetsCast = [[NSMutableArray alloc]init];
-//        tweetsCast = [NSMutableArray arrayWithArray:tweets];
-        
         self.arrayOfTweets = (NSMutableArray *)tweets;
         
         if (tweets) {
@@ -113,22 +110,23 @@
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetID" forIndexPath:indexPath];
 
     // Get the tweet at the specified index in the tweet array
-    Tweet *tweets = self.arrayOfTweets[indexPath.row];
+    Tweet *tweet = self.arrayOfTweets[indexPath.row];
     
-    NSString *URLString = tweets.user.profilePicture;
+    NSString *URLString = tweet.user.profilePicture;
     NSURL *url = [NSURL URLWithString:URLString];
     NSData *urlData = [NSData dataWithContentsOfURL:url];
 
+    cell.tweet = tweet;
     cell.profilePic.image = [UIImage imageWithData: urlData];
     
-    cell.username.text = tweets.user.name;
-    cell.actualUsername.text = [@"@" stringByAppendingString: tweets.user.screenName];
-    cell.actualTweet.text = tweets.text;
+    cell.username.text = tweet.user.name;
+    cell.actualUsername.text = [@"@" stringByAppendingString: tweet.user.screenName];
+    cell.actualTweet.text = tweet.text;
     
-    cell.date.text = tweets.createdAtString;
+    cell.date.text = tweet.createdAtString;
     
-    cell.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.retweetCount];
-    cell.like.titleLabel.text = [NSString stringWithFormat: @"%d", tweets.favoriteCount];
+    cell.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", tweet.retweetCount];
+    cell.like.titleLabel.text = [NSString stringWithFormat: @"%d", tweet.favoriteCount];
     
     cell.retweet.titleLabel.adjustsFontForContentSizeCategory = true;
     cell.like.titleLabel.adjustsFontForContentSizeCategory = true;
