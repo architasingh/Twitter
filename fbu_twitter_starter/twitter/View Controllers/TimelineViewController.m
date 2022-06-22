@@ -54,30 +54,28 @@
 }
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
 
-        // Create NSURL and NSURLRequest
-        NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    
-        // session
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                              delegate:nil
-                                                         delegateQueue:[NSOperationQueue mainQueue]];
-        session.configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-    
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    
-           // ... Use the new data to update the data source ...
-
-           // Reload the tableView now that there is new data
+        [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+        
+        self.timelineTableView.dataSource = self;
+        
+        self.arrayOfTweets = (NSMutableArray *)tweets;
+        
+        if (tweets) {
+            NSLog(@"😎😎😎 Successfully loaded home timeline");
+            for (Tweet *tweet in tweets) {
+                NSString *text = tweet.text;
+                NSLog(@"%@", text);
+            }
+            [self.timelineTableView reloadData];
+        } else {
+            NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
+        }
+            // Reload the tableView now that there is new data
             [self.timelineTableView reloadData];
 
-           // Tell the refreshControl to stop spinning
+            // Tell the refreshControl to stop spinning
             [refreshControl endRefreshing];
-
         }];
-    
-        [task resume];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,7 +111,9 @@
     Tweet *tweet = self.arrayOfTweets[indexPath.row];
     
     NSString *URLString = tweet.user.profilePicture;
-    NSURL *url = [NSURL URLWithString:URLString];
+    NSString *URLUnblurry = [URLString
+       stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+    NSURL *url = [NSURL URLWithString:URLUnblurry];
     NSData *urlData = [NSData dataWithContentsOfURL:url];
 
     cell.tweet = tweet;
