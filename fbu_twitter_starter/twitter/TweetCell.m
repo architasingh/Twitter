@@ -71,10 +71,10 @@
         // Send a POST request to the POST unfavorites/create endpoint
         [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if(error){
-                 NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+                 NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
             }
             else{
-                NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+                NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
             }
         }];
     } else {
@@ -92,10 +92,10 @@
         
         [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if(error){
-                 NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+                 NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);
             }
             else{
-                NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+                NSLog(@"Successfully un-retweeted the following Tweet: %@", tweet.text);
             }
         }];
     }
