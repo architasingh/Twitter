@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ComposeViewControllerDelegate
 
+- (void)didTweet:(Tweet *)tweet;
+
 @end
 
 @interface ComposeViewController : UIViewController
@@ -21,9 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *createTweet;
 @property (weak, nonatomic) IBOutlet UITextView *text;
 @property (nonatomic, weak) id<ComposeViewControllerDelegate> delegate;
-
-/*- (void)didTweet:(Tweet *)tweet;
-[self.text reloadData];*/
 
 @end
 
