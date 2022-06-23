@@ -129,7 +129,7 @@
 
     cell.tweet = tweet;
     cell.profilePic.image = [UIImage imageWithData: urlData];
-    cell.profilePic.layer.cornerRadius = 20;
+    cell.profilePic.layer.cornerRadius = 25;
     cell.profilePic.layer.masksToBounds = YES;
     
     cell.actualUsername.text = [@"@" stringByAppendingString: tweet.user.screenName];
@@ -142,6 +142,23 @@
     
     [cell.like setTitle:[NSString stringWithFormat: @"%d", cell.tweet.favoriteCount] forState:UIControlStateNormal];
     
+    if ((cell.tweet.favorited == YES)) {
+        UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
+        [cell.like setImage:likedImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
+        [cell.like setImage:unlikedImage forState:UIControlStateNormal];
+    }
+    
+    if ((cell.tweet.retweeted == YES)) {
+        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
+        [cell.retweet setImage:rtImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
+        [cell.retweet setImage:unretweetImage forState:UIControlStateNormal];
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
