@@ -8,17 +8,19 @@
 
 #import "DetailsViewController.h"
 #import "APIManager.h"
+#import "DateTools.h"
 
 @interface DetailsViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *detailScrollView;
-@property (weak, nonatomic) IBOutlet UIImageView *pfp;
+@property (weak, nonatomic) IBOutlet UIImageView *profilePic;
 @property (weak, nonatomic) IBOutlet UILabel *username;
-@property (weak, nonatomic) IBOutlet UILabel *screenName;
-@property (weak, nonatomic) IBOutlet UILabel *tweetInfo;
-@property (weak, nonatomic) IBOutlet UIButton *replyDetails;
-@property (weak, nonatomic) IBOutlet UIButton *rtDetails;
-@property (weak, nonatomic) IBOutlet UIButton *favDetails;
-@property (weak, nonatomic) IBOutlet UIButton *dmDetails;
+@property (weak, nonatomic) IBOutlet UILabel *actualTweet;
+@property (weak, nonatomic) IBOutlet UIButton *reply;
+@property (weak, nonatomic) IBOutlet UIButton *retweet;
+@property (weak, nonatomic) IBOutlet UIButton *like;
+@property (weak, nonatomic) IBOutlet UIButton *message;
+@property (weak, nonatomic) IBOutlet UILabel *actualUsername;
+@property (weak, nonatomic) IBOutlet UILabel *date;
 
 
 @end
@@ -35,20 +37,20 @@
     NSURL *url = [NSURL URLWithString:URLUnblurry];
     NSData *urlData = [NSData dataWithContentsOfURL:url];
     
-    self.pfp.image = [UIImage imageWithData: urlData];
+    self.profilePic.image = [UIImage imageWithData: urlData];
 
     
-    self.username.text = self.tweet.user.name;
-    self.screenName.text = [@"@" stringByAppendingString: self.tweet.user.screenName];
-    self.tweetInfo.text = self.tweet.text;
+    self.username.text = [@"@" stringByAppendingString: self.tweet.user.screenName];
+    self.actualUsername.text = self.tweet.user.name;
+    self.actualTweet.text = self.tweet.text;
     
-    //self.date.text = self.tweet.date.shortTimeAgoSinceNow;
+    self.date.text = self.tweet.date.shortTimeAgoSinceNow;
     
-    self.rtDetails.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.retweetCount];
-    self.favDetails.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.favoriteCount];
+    self.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.retweetCount];
+    self.like.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.favoriteCount];
     
-    self.rtDetails.titleLabel.adjustsFontForContentSizeCategory = true;
-    self.favDetails.titleLabel.adjustsFontForContentSizeCategory = true;
+    self.retweet.titleLabel.adjustsFontForContentSizeCategory = true;
+    self.like.titleLabel.adjustsFontForContentSizeCategory = true;
     
 }
 
@@ -60,10 +62,10 @@
         self.tweet.favoriteCount -= 1;
         
         // Update cell UI
-        [self.favDetails setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
+        [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
         
         UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
-        [self.favDetails setImage:unlikedImage forState:UIControlStateNormal];
+        [self.like setImage:unlikedImage forState:UIControlStateNormal];
         
         // Send a POST request to the POST unfavorites/create endpoint
         [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
@@ -80,10 +82,10 @@
         self.tweet.favoriteCount += 1;
         
         // TODO: Update cell UI
-        [self.favDetails setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
+        [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
         
         UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
-        [self.favDetails setImage:likedImage forState:UIControlStateNormal];
+        [self.like setImage:likedImage forState:UIControlStateNormal];
         
         // TODO: Send a POST request to the POST favorites/create endpoint
         [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {

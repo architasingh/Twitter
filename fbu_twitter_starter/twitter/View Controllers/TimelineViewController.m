@@ -130,8 +130,8 @@
     cell.tweet = tweet;
     cell.profilePic.image = [UIImage imageWithData: urlData];
     
-    cell.username.text = tweet.user.name;
-    cell.actualUsername.text = [@"@" stringByAppendingString: tweet.user.screenName];
+    cell.actualUsername.text = tweet.user.name;
+    cell.username.text = [@"@" stringByAppendingString: tweet.user.screenName];
     cell.actualTweet.text = tweet.text;
     
     cell.date.text = tweet.date.shortTimeAgoSinceNow;
