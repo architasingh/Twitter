@@ -24,7 +24,6 @@
 
 - (IBAction)closePage:(id)sender;
 
-
 @end
 
 @implementation DetailsViewController
