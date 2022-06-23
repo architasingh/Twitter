@@ -29,6 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     NSLog(@"%@", self.tweet);
     
     NSString *URLString = self.tweet.user.profilePicture;
@@ -40,11 +41,28 @@
     self.profilePic.image = [UIImage imageWithData: urlData];
 
     
-    self.username.text = [@"@" stringByAppendingString: self.tweet.user.screenName];
-    self.actualUsername.text = self.tweet.user.name;
+    self.actualUsername.text = [@"@" stringByAppendingString: self.tweet.user.screenName];
+    self.username.text = self.tweet.user.name;
+    
     self.actualTweet.text = self.tweet.text;
     
     self.date.text = self.tweet.date.shortTimeAgoSinceNow;
+    
+    if ((self.tweet.favorited == YES)) {
+        UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
+        [self.like setImage:likedImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
+        [self.like setImage:unlikedImage forState:UIControlStateNormal];
+    }
+    
+    if ((self.tweet.retweeted == YES)) {
+        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
+        [self.retweet setImage:rtImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
+        [self.retweet setImage:unretweetImage forState:UIControlStateNormal];
+    }
     
     self.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.retweetCount];
     self.like.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.favoriteCount];
@@ -97,6 +115,58 @@
             }
         }];
     }
+}
+
+- (IBAction)didTapRetweet:(id)sender {
+    if ((self.tweet.retweeted == YES)) {
+        
+        // Update local tweet model when unliked
+        self.tweet.retweeted = NO;
+        self.tweet.retweetCount -= 1;
+        
+        // Update cell UI
+        [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
+        
+        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
+        [self.retweet setImage:unretweetImage forState:UIControlStateNormal];
+        
+        // Send a POST request to the POST unfavorites/create endpoint
+        [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+            if(error){
+                 NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+            }
+            else{
+                NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+            }
+        }];
+    } else {
+        // TODO: Update the local tweet model
+        self.tweet.retweeted = YES;
+        self.tweet.retweetCount += 1;
+        
+        // TODO: Update cell UI
+        [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
+        
+        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
+        [self.retweet setImage:rtImage forState:UIControlStateNormal];
+        
+        // TODO: Send a POST request to the POST rt/create endpoint
+        
+        [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+            if(error){
+                 NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);
+            }
+            else{
+                NSLog(@"Successfully un-retweeted the following Tweet: %@", tweet.text);
+            }
+        }];
+    }
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+    
 }
 
 /*

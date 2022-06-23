@@ -19,8 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.text.delegate = self;
     // Do any additional setup after loading the view.
 }
 
