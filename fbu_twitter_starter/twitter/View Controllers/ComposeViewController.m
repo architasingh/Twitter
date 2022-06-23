@@ -9,7 +9,7 @@
 #import "ComposeViewController.h"
 #import "APIManager.h"
 
-@interface ComposeViewController ()
+@interface ComposeViewController () <UITextViewDelegate>
 - (IBAction)closePage:(id)sender;
 - (IBAction)makeATweet:(id)sender;
 
@@ -20,6 +20,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    return self.text.text.length + (self.text.text.length - range.length) <= 140;
 }
 
 /*
@@ -38,9 +43,9 @@
                  NSLog(@"Error composing Tweet: %@", error.localizedDescription);
              }
              else{
-                 [self.delegate didTweet:tweet];
-                 NSLog(@"Compose Tweet Success!");
-             }
+               [self.delegate didTweet:tweet];
+                NSLog(@"Compose Tweet Success!");
+            }
      }];
  }
      

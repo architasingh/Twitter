@@ -129,6 +129,8 @@
 
     cell.tweet = tweet;
     cell.profilePic.image = [UIImage imageWithData: urlData];
+    cell.profilePic.layer.cornerRadius = 20;
+    cell.profilePic.layer.masksToBounds = YES;
     
     cell.actualUsername.text = [@"@" stringByAppendingString: tweet.user.screenName];
     cell.username.text = tweet.user.name;
@@ -136,11 +138,9 @@
     
     cell.date.text = tweet.date.shortTimeAgoSinceNow;
     
-    cell.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", tweet.retweetCount];
-    cell.like.titleLabel.text = [NSString stringWithFormat: @"%d", tweet.favoriteCount];
+    [cell.retweet setTitle:[NSString stringWithFormat: @"%d", cell.tweet.retweetCount] forState:UIControlStateNormal];
     
-    cell.retweet.titleLabel.adjustsFontForContentSizeCategory = true;
-    cell.like.titleLabel.adjustsFontForContentSizeCategory = true;
+    [cell.like setTitle:[NSString stringWithFormat: @"%d", cell.tweet.favoriteCount] forState:UIControlStateNormal];
     
     return cell;
 }
