@@ -17,7 +17,7 @@
 #import "DetailsViewController.h"
 #import "DateTools.h"
 
-@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface TimelineViewController () <ComposeViewControllerDelegate, DetailsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logOut;
 - (IBAction)didTapLogout:(id)sender;
 @property (nonatomic, strong) NSMutableArray *arrayOfTweets;
@@ -97,10 +97,10 @@
     }
     if ([[segue identifier] isEqualToString:@"DetailViewSegue"]) {
         DetailsViewController *dvc = [segue destinationViewController];
-        
         NSIndexPath *indexPath = [self.timelineTableView indexPathForCell:(UITableViewCell *)sender];
         Tweet *tweet = self.arrayOfTweets[indexPath.row];
         dvc.tweet = tweet;
+        dvc.delegate = self;
     }
 }
 
@@ -130,8 +130,8 @@
     cell.tweet = tweet;
     cell.profilePic.image = [UIImage imageWithData: urlData];
     
-    cell.actualUsername.text = tweet.user.name;
-    cell.username.text = [@"@" stringByAppendingString: tweet.user.screenName];
+    cell.actualUsername.text = [@"@" stringByAppendingString: tweet.user.screenName];
+    cell.username.text = tweet.user.name;
     cell.actualTweet.text = tweet.text;
     
     cell.date.text = tweet.date.shortTimeAgoSinceNow;
@@ -150,8 +150,11 @@
 }
 
 - (void)didTweet:(nonnull Tweet *)tweet {
+    [self.arrayOfTweets insertObject:tweet atIndex:0];
+    [self.timelineTableView reloadData];
 }
-
-
+- (void)didLikeOrRetweet:(Tweet *)tweet; {
+    [self.timelineTableView reloadData];
+}
 
 @end

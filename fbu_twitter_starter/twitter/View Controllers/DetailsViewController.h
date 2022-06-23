@@ -11,8 +11,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol DetailsViewControllerDelegate
+
+- (void)didLikeOrRetweet:(Tweet *)tweet;
+
+@end
+
 @interface DetailsViewController : UIViewController
 @property (strong, nonatomic) Tweet *tweet;
+@property (nonatomic, weak) id<DetailsViewControllerDelegate> delegate;
 
 @end
 
