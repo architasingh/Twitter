@@ -37,10 +37,8 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://submissions.us-east-1.linodeobjects.com/metau_ios/xpf57Fil.gif' title='Video Walkthrough Pt.1' width='' alt='Video Walkthrough Pt.1' />
-<img src='https://submissions.us-east-1.linodeobjects.com/metau_ios/Vm4CnRoZ.gif' title='Video Walkthrough Pt.2' width='' alt='Video Walkthrough Pt.2' />
-
-GIF created with [Kap](https://getkap.co/).
+https://submissions.us-east-1.linodeobjects.com/metau_ios/xpf57Fil.gif
+https://submissions.us-east-1.linodeobjects.com/metau_ios/Vm4CnRoZ.gif
 
 ## Notes
 
