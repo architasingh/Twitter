@@ -36,8 +36,8 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-https://submissions.us-east-1.linodeobjects.com/metau_ios/xpf57Fil.gif
-https://submissions.us-east-1.linodeobjects.com/metau_ios/Vm4CnRoZ.gif
+- https://submissions.us-east-1.linodeobjects.com/metau_ios/xpf57Fil.gif
+- https://submissions.us-east-1.linodeobjects.com/metau_ios/Vm4CnRoZ.gif
 
 ## Notes
 
