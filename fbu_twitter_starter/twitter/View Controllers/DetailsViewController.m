@@ -22,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *actualUsername;
 @property (weak, nonatomic) IBOutlet UILabel *date;
 
+- (IBAction)closePage:(id)sender;
+
 
 @end
 
@@ -39,7 +41,6 @@
     NSData *urlData = [NSData dataWithContentsOfURL:url];
     
     self.profilePic.image = [UIImage imageWithData: urlData];
-
     
     self.actualUsername.text = [@"@" stringByAppendingString: self.tweet.user.screenName];
     self.username.text = self.tweet.user.name;
@@ -47,6 +48,10 @@
     self.actualTweet.text = self.tweet.text;
     
     self.date.text = self.tweet.date.shortTimeAgoSinceNow;
+    
+    [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
+    
+    [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
     
     if ((self.tweet.favorited == YES)) {
         UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
@@ -64,13 +69,9 @@
         [self.retweet setImage:unretweetImage forState:UIControlStateNormal];
     }
     
-    self.retweet.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.retweetCount];
-    self.like.titleLabel.text = [NSString stringWithFormat: @"%d", self.tweet.favoriteCount];
-    
-    self.retweet.titleLabel.adjustsFontForContentSizeCategory = true;
-    self.like.titleLabel.adjustsFontForContentSizeCategory = true;
-    
 }
+
+
 
 - (IBAction)didTapFavorite:(id)sender {
     if ((self.tweet.favorited == YES)) {
@@ -92,6 +93,7 @@
             }
             else{
                 NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+                [self.delegate didLikeOrRetweet:self.tweet];
             }
         }];
     } else {
@@ -112,6 +114,7 @@
             }
             else{
                 NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+                [self.delegate didLikeOrRetweet:self.tweet];
             }
         }];
     }
@@ -137,6 +140,7 @@
             }
             else{
                 NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+                [self.delegate didLikeOrRetweet:self.tweet];
             }
         }];
     } else {
@@ -158,6 +162,7 @@
             }
             else{
                 NSLog(@"Successfully un-retweeted the following Tweet: %@", tweet.text);
+                [self.delegate didLikeOrRetweet:self.tweet];
             }
         }];
     }
@@ -179,4 +184,7 @@
 }
 */
 
+- (IBAction)closePage:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
 @end
