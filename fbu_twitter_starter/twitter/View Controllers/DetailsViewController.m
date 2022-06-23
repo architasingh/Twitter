@@ -71,8 +71,6 @@
     
 }
 
-
-
 - (IBAction)didTapFavorite:(id)sender {
     if ((self.tweet.favorited == YES)) {
         
