@@ -303,7 +303,7 @@
                                                         <buttonConfiguration key="configuration" style="plain" image="reply-icon" title=""/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGa-iG-7dT">
-                                                        <rect key="frame" x="67" y="0.0" width="110" height="40"/>
+                                                        <rect key="frame" x="67" y="0.0" width="58" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="Cij-4G-Q9L"/>
                                                         </constraints>
@@ -314,7 +314,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DLL-0E-ea5">
-                                                        <rect key="frame" x="194" y="0.0" width="58" height="40"/>
+                                                        <rect key="frame" x="142" y="0.0" width="110" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="Q0g-Lo-Qga"/>
                                                         </constraints>
