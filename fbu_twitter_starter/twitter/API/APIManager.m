@@ -30,8 +30,7 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     
     NSURL *baseURL = [NSURL URLWithString:baseURLString];
     
-    // TODO: fix code below to pull API Keys from your new Keys.plist file
-
+    // Pull API Keys from your new Keys.plist file
     NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
 
@@ -53,16 +52,15 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     return self;
 }
 
+// Gets home timeline
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
     NSDictionary *parameters = @{@"tweet_mode":@"extended"};
     
     [self GET:@"1.1/statuses/home_timeline.json"
        parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
-           // Success
            NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
            completion(tweets, nil);
        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-           // There was a problem
            completion(nil, error);
     }];
 
@@ -80,8 +78,8 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+// Sends post request for favoriting a tweet
 - (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
-
     NSString *urlString = @"1.1/favorites/create.json";
     NSDictionary *parameters = @{@"id": tweet.idStr};
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
@@ -92,8 +90,8 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+// Sends post request for unfavoriting a tweet
 - (void)unfavorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
-
     NSString *urlString = @"1.1/favorites/destroy.json";
     NSDictionary *parameters = @{@"id": tweet.idStr};
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
@@ -104,8 +102,8 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+// Sends post request for retweeting a tweet
 - (void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
-
     NSString *urlString = @"1.1/statuses/retweet/";
     NSString *appendID = [urlString stringByAppendingString: tweet.idStr];
     NSString *appendJSON = [appendID stringByAppendingString: @".json"];
@@ -117,8 +115,8 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+// Sends post request for unretweeting a tweet
 - (void)unretweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
-    
     NSString *urlString = @"1.1/statuses/unretweet/";
     NSString *appendID = [urlString stringByAppendingString: tweet.idStr];
     NSString *appendJSON = [appendID stringByAppendingString: @".json"];

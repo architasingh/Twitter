@@ -52,8 +52,9 @@
         
     }];
 }
-- (void)beginRefresh:(UIRefreshControl *)refreshControl {
 
+// Loads updated home timeline
+- (void)beginRefresh:(UIRefreshControl *)refreshControl {
         [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         
         self.timelineTableView.dataSource = self;
@@ -79,12 +80,12 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 #pragma mark - Navigation
 
+// Sets up segue to both compose tweet and details page
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeViewSegue"]) {
         UINavigationController *navigationController = [segue destinationViewController];
@@ -100,8 +101,8 @@
     }
 }
 
+// Takes user to log-in page if log-out button is clicked
 - (IBAction)didTapLogout:(id)sender {
-    
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -110,6 +111,7 @@
     [[APIManager shared] logout];
 }
 
+// Sets table view fields
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetID" forIndexPath:indexPath];
@@ -130,19 +132,23 @@
     return cell;
 }
 
+// Returns number of tweets
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.arrayOfTweets.count;
 }
 
+// Adds newly composed tweet to the top of the timeline
 - (void)didTweet:(nonnull Tweet *)tweet {
     [self.arrayOfTweets insertObject:tweet atIndex:0];
     [self.timelineTableView reloadData];
 }
 
+// Reloads table view to reflect if something has been liked/retweeted
 - (void)didLikeOrRetweet:(Tweet *)tweet; {
     [self.timelineTableView reloadData];
 }
 
+// Sets images and counts for retweet and like buttons
 - (void)setButtonUI:(nonnull TweetCell *)cell forlikeRt:(nonnull Tweet *)tweet {
     [cell.retweet setTitle:[NSString stringWithFormat: @"%d", cell.tweet.retweetCount] forState:UIControlStateNormal];
     
@@ -165,6 +171,7 @@
     }
 }
 
+// Sets profile pic image to be circular and good quality
 - (void)setImageUI:(nonnull TweetCell *)cell forProfilePic:(nonnull Tweet *)tweet {
     NSString *URLString = tweet.user.profilePicture;
     NSString *URLUnblurry = [URLString

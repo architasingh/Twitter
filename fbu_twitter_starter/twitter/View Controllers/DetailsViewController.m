@@ -71,6 +71,7 @@
     }
     [self.delegate didLikeOrRetweet:self.tweet];
 }
+
 // Updates cell UI and sends post request for retweeting
 - (void)ifRetweeted {
     self.tweet.retweeted = NO;
@@ -152,6 +153,7 @@
     }];
 }
 
+// Sets images and counts for retweet and like buttons
 - (void)setButtonUI {
     [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
     
@@ -176,9 +178,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
+// Closes details view page
 - (IBAction)closePage:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }

@@ -23,6 +23,7 @@
     [super didReceiveMemoryWarning];
 }
 
+// Takes user to log-in page if log-in button is clicked
 - (IBAction)didTapLogin:(id)sender {
     [[APIManager shared] loginWithCompletion:^(BOOL success, NSError *error) {
         if (success) {
