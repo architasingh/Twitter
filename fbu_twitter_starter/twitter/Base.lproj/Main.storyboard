@@ -420,18 +420,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Rki-cm-GUZ">
-                                <rect key="frame" x="8" y="56" width="359" height="227"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Rki-cm-GUZ">
+                                <rect key="frame" x="28" y="56" width="359" height="186"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17Z-Us-nHZ">
+                                <rect key="frame" x="220" y="277" width="174" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Xzi-PS-2gt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="17Z-Us-nHZ" firstAttribute="top" secondItem="Rki-cm-GUZ" secondAttribute="bottom" constant="35" id="142-Ff-E9e"/>
+                            <constraint firstItem="17Z-Us-nHZ" firstAttribute="leading" secondItem="QNp-cG-OQB" secondAttribute="leadingMargin" constant="200" id="2RS-82-gOh"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Rki-cm-GUZ" secondAttribute="bottom" constant="600" id="A5h-kl-IGk"/>
+                            <constraint firstItem="17Z-Us-nHZ" firstAttribute="trailing" secondItem="QNp-cG-OQB" secondAttribute="trailingMargin" id="Cd0-C2-9Pg"/>
+                            <constraint firstItem="Rki-cm-GUZ" firstAttribute="top" secondItem="QNp-cG-OQB" secondAttribute="topMargin" id="FDT-jT-8at"/>
+                            <constraint firstItem="Rki-cm-GUZ" firstAttribute="leading" secondItem="Xzi-PS-2gt" secondAttribute="leading" constant="28" id="V8u-Ka-l33"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="17Z-Us-nHZ" secondAttribute="bottom" constant="525" id="cNo-q1-rqJ"/>
+                            <constraint firstItem="Xzi-PS-2gt" firstAttribute="trailing" secondItem="Rki-cm-GUZ" secondAttribute="trailing" constant="27" id="qm6-Fh-IBZ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wE0-OA-4Cv">
                         <barButtonItem key="leftBarButtonItem" title="X" id="A7m-Ak-F9A">
@@ -446,6 +461,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="charCount" destination="17Z-Us-nHZ" id="koj-Er-Bqj"/>
                         <outlet property="close" destination="A7m-Ak-F9A" id="aUX-St-WlV"/>
                         <outlet property="createTweet" destination="Ido-ve-7yn" id="4kD-c4-H0G"/>
                         <outlet property="text" destination="Rki-cm-GUZ" id="KDf-we-qcg"/>
