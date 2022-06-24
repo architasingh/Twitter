@@ -30,6 +30,7 @@ The following **stretch** features are implemented:
 - Unlike/un-retweet by tapping liked/retweeted Tweet button. Doing so will decrement the count. 
 - Clickable Links in Tweets - Tweets that include links allow a user to click on them.
 - Only create tweets that are 140 characters or less. Character limit incorporated so user is stopped from typing more than allowed limit.
+- See how many available characters are left while they compose a tweet.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
