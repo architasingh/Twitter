@@ -439,7 +439,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="17Z-Us-nHZ" firstAttribute="top" secondItem="Rki-cm-GUZ" secondAttribute="bottom" constant="35" id="142-Ff-E9e"/>
-                            <constraint firstItem="17Z-Us-nHZ" firstAttribute="leading" secondItem="QNp-cG-OQB" secondAttribute="leadingMargin" constant="200" id="2RS-82-gOh"/>
+                            <constraint firstItem="17Z-Us-nHZ" firstAttribute="leading" relation="lessThanOrEqual" secondItem="QNp-cG-OQB" secondAttribute="leadingMargin" constant="200" id="2RS-82-gOh"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Rki-cm-GUZ" secondAttribute="bottom" constant="600" id="A5h-kl-IGk"/>
                             <constraint firstItem="17Z-Us-nHZ" firstAttribute="trailing" secondItem="QNp-cG-OQB" secondAttribute="trailingMargin" id="Cd0-C2-9Pg"/>
                             <constraint firstItem="Rki-cm-GUZ" firstAttribute="top" secondItem="QNp-cG-OQB" secondAttribute="topMargin" id="FDT-jT-8at"/>

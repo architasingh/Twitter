@@ -21,7 +21,6 @@
     [super viewDidLoad];
     
     self.text.delegate = self;
-    
     self.charCount.text = @"Characters Left: 280";
 }
 
@@ -34,11 +33,10 @@
 
 // Displays the number of available characters left in the tweet that's being composed
 - (void)textViewDidChange:(UITextView *)textView {
-    NSUInteger length;
-    length = [textView.text length];
-    NSString *numToString = [NSString stringWithFormat:@"%lu", 280 - (unsigned long)length];
-    NSString *addLabel = [@"Characters left: " stringByAppendingString: numToString];
-    self.charCount.text = addLabel;
+    NSUInteger length = [textView.text length];
+    NSString *numToString = [NSString stringWithFormat:@"%lu", 280 - length];
+    NSString *charsLeftText = [@"Characters left: " stringByAppendingString: numToString];
+    self.charCount.text = charsLeftText;
 }
 
 // Creates tweet if its within the character count
@@ -48,10 +46,8 @@
                  NSLog(@"Error composing Tweet: %@", error.localizedDescription);
              }
              else{
-                 if ([self textView:self.text shouldChangeTextInRange:NSMakeRange(0, 280) replacementText:self.text.text]) {
-                     [self.delegate didTweet:tweet];
-                      NSLog(@"Compose Tweet Success!");
-                 }
+                [self.delegate didTweet:tweet];
+                NSLog(@"Compose Tweet Success!");
             }
      }];
  }

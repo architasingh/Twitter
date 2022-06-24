@@ -11,6 +11,7 @@
 
 @implementation TweetCell
 
+// Sets button UI when favorite button is pressed
 - (IBAction)didTapFavorite:(id)sender {
     if ((self.tweet.favorited == YES)) {
         [self ifFavorited];
@@ -19,6 +20,7 @@
     }
 }
 
+// Sets button UI when retweet button is pressed
 - (IBAction)didTapRetweet:(id)sender {
     if ((self.tweet.retweeted == YES)) {
         [self ifRetweeted];
