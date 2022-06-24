@@ -26,7 +26,9 @@ The following **stretch** features are implemented:
 
 **A user could**
 
-- Be able to **unlike** or **un-retweet** by tapping a liked or retweeted Tweet button, respectively. (Doing so will decrement the count for each)
+- Like/retweet from Details view. Doing so will increment the count. Changes reflected on Details and Timeline view. 
+- Unlike/un-retweet by tapping liked/retweeted Tweet button. Doing so will decrement the count. 
+- Clickable Links in Tweets - Tweets that include links allow a user to click on them.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
