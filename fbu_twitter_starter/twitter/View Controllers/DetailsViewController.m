@@ -9,8 +9,11 @@
 #import "DetailsViewController.h"
 #import "APIManager.h"
 #import "DateTools.h"
+#import "TweetCell.h"
 
 @interface DetailsViewController ()
+//<TweetCellDelegate>
+
 @property (weak, nonatomic) IBOutlet UIScrollView *detailScrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePic;
 @property (weak, nonatomic) IBOutlet UILabel *username;
@@ -48,42 +51,22 @@
     
     self.date.text = self.tweet.date.shortTimeAgoSinceNow;
     
-    [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
-    
-    [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
-    
-    if ((self.tweet.favorited == YES)) {
-        UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
-        [self.like setImage:likedImage forState:UIControlStateNormal];
-    } else {
-        UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
-        [self.like setImage:unlikedImage forState:UIControlStateNormal];
-    }
-    
-    if ((self.tweet.retweeted == YES)) {
-        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
-        [self.retweet setImage:rtImage forState:UIControlStateNormal];
-    } else {
-        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
-        [self.retweet setImage:unretweetImage forState:UIControlStateNormal];
-    }
+    [self setButtonUI];
     
 }
 
+// Update local tweet model, cell UI, and send post request for favorite button
 - (IBAction)didTapFavorite:(id)sender {
     if ((self.tweet.favorited == YES)) {
-        
-        // Update local tweet model when unliked
+       
         self.tweet.favorited = NO;
         self.tweet.favoriteCount -= 1;
         
-        // Update cell UI
         [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
         
         UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
         [self.like setImage:unlikedImage forState:UIControlStateNormal];
         
-        // Send a POST request to the POST unfavorites/create endpoint
         [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if(error){
                  NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
@@ -94,17 +77,14 @@
             }
         }];
     } else {
-        // TODO: Update the local tweet model
         self.tweet.favorited = YES;
         self.tweet.favoriteCount += 1;
         
-        // TODO: Update cell UI
         [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
         
         UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
         [self.like setImage:likedImage forState:UIControlStateNormal];
         
-        // TODO: Send a POST request to the POST favorites/create endpoint
         [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if(error){
                  NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
@@ -141,17 +121,14 @@
             }
         }];
     } else {
-        // TODO: Update the local tweet model
+    
         self.tweet.retweeted = YES;
         self.tweet.retweetCount += 1;
         
-        // TODO: Update cell UI
         [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
         
         UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
         [self.retweet setImage:rtImage forState:UIControlStateNormal];
-        
-        // TODO: Send a POST request to the POST rt/create endpoint
         
         [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if(error){
@@ -165,21 +142,33 @@
     }
 }
 
+- (void)setButtonUI {
+    [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
+    
+    [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
+    
+    if ((self.tweet.favorited == YES)) {
+        UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
+        [self.like setImage:likedImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
+        [self.like setImage:unlikedImage forState:UIControlStateNormal];
+    }
+    
+    if ((self.tweet.retweeted == YES)) {
+        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
+        [self.retweet setImage:rtImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
+        [self.retweet setImage:unretweetImage forState:UIControlStateNormal];
+    }
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
     
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)closePage:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];

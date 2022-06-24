@@ -108,11 +108,11 @@
 				6AD278DE20BC4B950085BC29 /* Main.storyboard */,
 				6AD278E120BC4B970085BC29 /* Assets.xcassets */,
 				6AD278E320BC4B970085BC29 /* LaunchScreen.storyboard */,
-				6AD278E620BC4B970085BC29 /* Info.plist */,
 				6AD278E720BC4B970085BC29 /* main.m */,
 				AD5C4E6228611FBC00243F35 /* TweetCell.h */,
 				AD5C4E6328611FBC00243F35 /* TweetCell.m */,
 				ADB066FE2866257200E62413 /* Keys.plist */,
+				6AD278E620BC4B970085BC29 /* Info.plist */,
 			);
 			path = twitter;
 			sourceTree = "<group>";

@@ -31,15 +31,12 @@
         
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+    
     [self.timelineTableView insertSubview:refreshControl atIndex:0];
-
     self.timelineTableView.estimatedRowHeight = UITableViewAutomaticDimension;
     
-    // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
-        
         self.timelineTableView.dataSource = self;
-        
         self.arrayOfTweets = (NSMutableArray *)tweets;
         
         if (tweets) {
@@ -52,6 +49,7 @@
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
+        
     }];
 }
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
@@ -59,7 +57,6 @@
         [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         
         self.timelineTableView.dataSource = self;
-        
         self.arrayOfTweets = (NSMutableArray *)tweets;
         
         if (tweets) {
@@ -68,14 +65,14 @@
                 NSString *text = tweet.text;
                 NSLog(@"%@", text);
             }
+            
             [self.timelineTableView reloadData];
+            
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
-            // Reload the tableView now that there is new data
-            [self.timelineTableView reloadData];
 
-            // Tell the refreshControl to stop spinning
+            [self.timelineTableView reloadData];
             [refreshControl endRefreshing];
         }];
 }
@@ -88,7 +85,6 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeViewSegue"]) {
         UINavigationController *navigationController = [segue destinationViewController];
@@ -117,46 +113,18 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetID" forIndexPath:indexPath];
-
-    // Get the tweet at the specified index in the tweet array
+    
     Tweet *tweet = self.arrayOfTweets[indexPath.row];
     
-    NSString *URLString = tweet.user.profilePicture;
-    NSString *URLUnblurry = [URLString
-       stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
-    NSURL *url = [NSURL URLWithString:URLUnblurry];
-    NSData *urlData = [NSData dataWithContentsOfURL:url];
-
     cell.tweet = tweet;
-    cell.profilePic.image = [UIImage imageWithData: urlData];
-    cell.profilePic.layer.cornerRadius = 25;
-    cell.profilePic.layer.masksToBounds = YES;
-    
     cell.actualUsername.text = [@"@" stringByAppendingString: tweet.user.screenName];
     cell.username.text = tweet.user.name;
     cell.actualTweet.text = tweet.text;
-    
     cell.date.text = tweet.date.shortTimeAgoSinceNow;
     
-    [cell.retweet setTitle:[NSString stringWithFormat: @"%d", cell.tweet.retweetCount] forState:UIControlStateNormal];
+    [self setImageUI:cell forProfilePic:tweet];
     
-    [cell.like setTitle:[NSString stringWithFormat: @"%d", cell.tweet.favoriteCount] forState:UIControlStateNormal];
-    
-    if ((cell.tweet.favorited == YES)) {
-        UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
-        [cell.like setImage:likedImage forState:UIControlStateNormal];
-    } else {
-        UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
-        [cell.like setImage:unlikedImage forState:UIControlStateNormal];
-    }
-    
-    if ((cell.tweet.retweeted == YES)) {
-        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
-        [cell.retweet setImage:rtImage forState:UIControlStateNormal];
-    } else {
-        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
-        [cell.retweet setImage:unretweetImage forState:UIControlStateNormal];
-    }
+    [self setButtonUI:cell forlikeRt:tweet];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -170,8 +138,42 @@
     [self.arrayOfTweets insertObject:tweet atIndex:0];
     [self.timelineTableView reloadData];
 }
+
 - (void)didLikeOrRetweet:(Tweet *)tweet; {
     [self.timelineTableView reloadData];
+}
+
+- (void)setButtonUI:(nonnull TweetCell *)cell forlikeRt:(nonnull Tweet *)tweet {
+    [cell.retweet setTitle:[NSString stringWithFormat: @"%d", cell.tweet.retweetCount] forState:UIControlStateNormal];
+    
+    [cell.like setTitle:[NSString stringWithFormat: @"%d", cell.tweet.favoriteCount] forState:UIControlStateNormal];
+    
+    if ((tweet.favorited == YES)) {
+        UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
+        [cell.like setImage:likedImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
+        [cell.like setImage:unlikedImage forState:UIControlStateNormal];
+    }
+    
+    if ((tweet.retweeted == YES)) {
+        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
+        [cell.retweet setImage:rtImage forState:UIControlStateNormal];
+    } else {
+        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
+        [cell.retweet setImage:unretweetImage forState:UIControlStateNormal];
+    }
+}
+
+- (void)setImageUI:(nonnull TweetCell *)cell forProfilePic:(nonnull Tweet *)tweet {
+    NSString *URLString = tweet.user.profilePicture;
+    NSString *URLUnblurry = [URLString
+       stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+    NSURL *url = [NSURL URLWithString:URLUnblurry];
+    NSData *urlData = [NSData dataWithContentsOfURL:url];
+    cell.profilePic.image = [UIImage imageWithData: urlData];
+    cell.profilePic.layer.cornerRadius = 25;
+    cell.profilePic.layer.masksToBounds = YES;
 }
 
 @end
