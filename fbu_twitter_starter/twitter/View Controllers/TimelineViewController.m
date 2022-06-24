@@ -19,9 +19,9 @@
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, DetailsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logOut;
-- (IBAction)didTapLogout:(id)sender;
 @property (nonatomic, strong) NSMutableArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *timelineTableView;
+- (IBAction)didTapLogout:(id)sender;
 
 @end
 @implementation TimelineViewController

@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UIButton *back;
 
+- (void)ifRetweeted;
+- (void)ifUnRetweeted;
+- (void)ifFavorited;
+- (void)ifUnFavorited;
+
 @end
 
 NS_ASSUME_NONNULL_END

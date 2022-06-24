@@ -10,8 +10,6 @@
 #import "Tweet.h"
 
 NS_ASSUME_NONNULL_BEGIN
-//@protocol TweetCellDelegate
-//@end
 
 @interface TweetCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *profilePic;
@@ -25,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *date;
 
 @property (nonatomic, strong) Tweet *tweet;
-//@property (nonatomic, weak) id<TweetCellDelegate> TCDelegate;
 
 - (void)ifRetweeted;
 - (void)ifUnRetweeted;

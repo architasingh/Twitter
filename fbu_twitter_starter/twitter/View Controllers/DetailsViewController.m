@@ -12,7 +12,6 @@
 #import "TweetCell.h"
 
 @interface DetailsViewController ()
-//<TweetCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *detailScrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePic;
@@ -52,94 +51,105 @@
     self.date.text = self.tweet.date.shortTimeAgoSinceNow;
     
     [self setButtonUI];
-    
 }
 
 // Update local tweet model, cell UI, and send post request for favorite button
 - (IBAction)didTapFavorite:(id)sender {
     if ((self.tweet.favorited == YES)) {
-       
-        self.tweet.favorited = NO;
-        self.tweet.favoriteCount -= 1;
-        
-        [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
-        
-        UIImage *unlikedImage = [UIImage imageNamed:@"favor-icon"];
-        [self.like setImage:unlikedImage forState:UIControlStateNormal];
-        
-        [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                 NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
-            }
-            else{
-                NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
-                [self.delegate didLikeOrRetweet:self.tweet];
-            }
-        }];
+        [self ifFavorited];
     } else {
-        self.tweet.favorited = YES;
-        self.tweet.favoriteCount += 1;
-        
-        [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
-        
-        UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
-        [self.like setImage:likedImage forState:UIControlStateNormal];
-        
-        [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                 NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
-            }
-            else{
-                NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
-                [self.delegate didLikeOrRetweet:self.tweet];
-            }
-        }];
+        [self ifUnFavorited];
     }
+    [self.delegate didLikeOrRetweet:self.tweet];
 }
 
 - (IBAction)didTapRetweet:(id)sender {
     if ((self.tweet.retweeted == YES)) {
-        
-        // Update local tweet model when unliked
-        self.tweet.retweeted = NO;
-        self.tweet.retweetCount -= 1;
-        
-        // Update cell UI
-        [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
-        
-        UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
-        [self.retweet setImage:unretweetImage forState:UIControlStateNormal];
-        
-        // Send a POST request to the POST unfavorites/create endpoint
-        [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                 NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
-            }
-            else{
-                NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
-                [self.delegate didLikeOrRetweet:self.tweet];
-            }
-        }];
+        [self ifRetweeted];
     } else {
-    
-        self.tweet.retweeted = YES;
-        self.tweet.retweetCount += 1;
-        
-        [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
-        
-        UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
-        [self.retweet setImage:rtImage forState:UIControlStateNormal];
-        
-        [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if(error){
-                 NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);
-            }
-            else{
-                NSLog(@"Successfully un-retweeted the following Tweet: %@", tweet.text);
-                [self.delegate didLikeOrRetweet:self.tweet];
-            }
-        }];
+        [self ifUnRetweeted];
     }
+    [self.delegate didLikeOrRetweet:self.tweet];
+}
+// Updates cell UI and sends post request for retweeting
+- (void)ifRetweeted {
+    self.tweet.retweeted = NO;
+    self.tweet.retweetCount -= 1;
+    
+    [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
+    
+    UIImage *unretweetImage = [UIImage imageNamed:@"retweet-icon"];
+    [self.retweet setImage:unretweetImage forState:UIControlStateNormal];
+    
+    [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+             NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+        }
+    }];
+}
+
+// Updates cell UI and sends post request for unretweeting
+- (void)ifUnRetweeted {
+    self.tweet.retweeted = YES;
+    self.tweet.retweetCount += 1;
+
+    [self.retweet setTitle:[NSString stringWithFormat: @"%d", self.tweet.retweetCount] forState:UIControlStateNormal];
+
+    UIImage *rtImage = [UIImage imageNamed:@"retweet-icon-green"];
+    [self.retweet setImage:rtImage forState:UIControlStateNormal];
+
+    [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+             NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully un-retweeted the following Tweet: %@", tweet.text);
+        }
+    }];
+}
+
+// Updates cell UI and sends post request for favoriting
+- (void)ifFavorited {
+    self.tweet.favorited = NO;
+    self.tweet.favoriteCount -= 1;
+
+    [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
+
+    UIImage *likedImage = [UIImage imageNamed:@"favor-icon"];
+    [self.like setImage:likedImage forState:UIControlStateNormal];
+
+    [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+             NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+        }
+    }];
+}
+
+// Updates cell UI and sends post request for unfavoriting
+- (void)ifUnFavorited {
+    self.tweet.favorited = YES;
+    self.tweet.favoriteCount += 1;
+
+    [self.like setTitle:[NSString stringWithFormat: @"%d", self.tweet.favoriteCount] forState:UIControlStateNormal];
+
+    UIImage *likedImage = [UIImage imageNamed:@"favor-icon-red"];
+    [self.like setImage:likedImage forState:UIControlStateNormal];
+
+    [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        
+    if(error) {
+        NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+    }
+    else {
+        NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+    }
+    }];
 }
 
 - (void)setButtonUI {
@@ -167,7 +177,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    
 }
 
 - (IBAction)closePage:(id)sender {
